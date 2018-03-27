@@ -7,17 +7,17 @@ import Todos from './pages/Todos/Todos';
 import ShopCart from './pages/shop-cart/ShopCart';
 import registerServiceWorker from './registerServiceWorker';
 import {createStore,applyMiddleware} from 'redux';
-import createLogger  from 'redux-logger'
+import {createLogger}  from 'redux-logger'
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './reducer/reducers';
-// const middleware = [ thunk ];
-// if (process.env.NODE_ENV !== 'production') {
-//     middleware.push(createLogger());
-// }
+const middleware = [ thunk ];
+if (process.env.NODE_ENV !== 'production') {
+    middleware.push(createLogger());
+}
 const store = createStore(
     reducer,
-    applyMiddleware(createLogger,thunk)
+    applyMiddleware(...middleware) //中间件的顺序有一定的要求，logger一定要放到最后
 );
 ReactDOM.render(
     <Provider store={store}>
